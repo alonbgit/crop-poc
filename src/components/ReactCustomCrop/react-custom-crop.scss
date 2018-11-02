@@ -14,16 +14,11 @@ $handle-height: 6px;
         width: $handle-width !important;
         height: $handle-height !important;
         border: 0 !important;
-        transition: opacity 0.5s linear;
 
         &.second-handle {
             transform: rotate(90deg);
             width: $handle-width - $handle-height !important;
         }
-    }
-
-    .ReactCrop__drag-bar.ord-n, .ReactCrop__drag-bar.ord-e, .ReactCrop__drag-bar.ord-s, .ReactCrop__drag-bar.ord-w {
-        pointer-events: none;
     }
 
     .ReactCrop__drag-handle.ord-n, .ReactCrop__drag-handle.ord-s {

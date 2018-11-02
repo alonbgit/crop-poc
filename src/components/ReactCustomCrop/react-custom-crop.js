@@ -6,7 +6,7 @@ import './ReactCrop.scss';
 import './react-custom-crop.scss';
 
 const HANDLE_WIDTH = 39;
-const HIDE_HANDLE_PADDING = 10;
+const HIDE_HANDLE_PADDING = 5;
 const MIN_WIDTH_TO_HIDE_HANDLES = (HANDLE_WIDTH * 3) + HIDE_HANDLE_PADDING;
 const MIN_WIDTH_TO_HIDE_CORNER_HANDLES = (HANDLE_WIDTH * 2) + HIDE_HANDLE_PADDING;
 
@@ -59,6 +59,12 @@ class ReactCustomCrop extends Component {
         }
       }
     }
+
+    toggleDisplay(handles, hide) {
+      handles.forEach(handle => {
+        handle.style.display = hide ? 'none' : 'block';
+      });
+    }
   
     checkHandles(crop) {
       if (this.hasHandles()) {
@@ -78,15 +84,13 @@ class ReactCustomCrop extends Component {
         const el = cropSelectRef.firstChild;
   
         const northSouthHandles = el.querySelectorAll('.ReactCrop__drag-handle.ord-n, .ReactCrop__drag-handle.ord-s');
-        northSouthHandles[0].style.opacity = northSouthHandles[1].style.opacity = hideNorthSouthHandles ? '0' : '1';
+        this.toggleDisplay(northSouthHandles, hideNorthSouthHandles);
   
         const westEashHandles = el.querySelectorAll('.ReactCrop__drag-handle.ord-w, .ReactCrop__drag-handle.ord-e');
-        westEashHandles[0].style.opacity = westEashHandles[1].style.opacity = hideWestEastHandles ? '0' : '1';
+        this.toggleDisplay(westEashHandles, hideWestEastHandles);
   
         const allCornerHandles = el.querySelectorAll('.ReactCrop__drag-handle.ord-nw, .ReactCrop__drag-handle.ord-ne, .ReactCrop__drag-handle.ord-se, .ReactCrop__drag-handle.ord-sw, .ReactCrop__drag-handle.second-handle');
-        allCornerHandles.forEach((handle) => {
-          handle.style.opacity = hideAllCornerHandles ? '0' : '1';
-        });
+        this.toggleDisplay(allCornerHandles, hideAllCornerHandles);
       }
     }
   
