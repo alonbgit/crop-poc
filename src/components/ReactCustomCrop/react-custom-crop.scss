@@ -1,0 +1,95 @@
+$handle-side-margin: -10.8px;
+$handle-top-margin: 21px;
+
+$handle-origin-side-margin: 2.5px;
+$handle-origin-top-margin: 2px;
+
+$handle-width: 39px;
+$handle-height: 6px;
+
+.react-custom-crop {
+
+    .ReactCrop__drag-handle {
+        background-color: blue !important;
+        width: $handle-width !important;
+        height: $handle-height !important;
+        border: 0 !important;
+        transition: opacity 0.5s linear;
+
+        &.second-handle {
+            transform: rotate(90deg);
+            width: $handle-width - $handle-height !important;
+        }
+    }
+
+    .ReactCrop__drag-bar.ord-n, .ReactCrop__drag-bar.ord-e, .ReactCrop__drag-bar.ord-s, .ReactCrop__drag-bar.ord-w {
+        pointer-events: none;
+    }
+
+    .ReactCrop__drag-handle.ord-n, .ReactCrop__drag-handle.ord-s {
+        margin-left: -$handle-width / 2 !important;
+    }
+
+    .ReactCrop__drag-handle.ord-n:not(.second-handle) {
+        top: $handle-origin-top-margin;
+    }
+    .ReactCrop__drag-handle.ord-s:not(.second-handle) {
+        bottom: $handle-origin-top-margin;
+    }
+
+    .ReactCrop__drag-handle.ord-e, .ReactCrop__drag-handle.ord-w {
+        transform: rotate(90deg);
+    }
+
+    // north west
+    .ReactCrop__drag-handle.ord-nw.second-handle {
+        left: $handle-side-margin;
+        top: $handle-top-margin;
+    }
+    .ReactCrop__drag-handle.ord-nw:not(.second-handle) {
+        left: $handle-origin-side-margin;
+        top: $handle-origin-top-margin;
+    }
+
+    // north east
+    .ReactCrop__drag-handle.ord-ne.second-handle {
+        right: $handle-side-margin;
+        top: $handle-top-margin;
+    
+    }
+    .ReactCrop__drag-handle.ord-ne:not(.second-handle) {
+        right: $handle-origin-side-margin;
+        top: $handle-origin-top-margin;
+    }
+
+    // east
+    .ReactCrop__drag-handle.ord-e {
+        right: $handle-side-margin - $handle-height / 2 !important;
+    }
+
+    // west
+    .ReactCrop__drag-handle.ord-w {
+        left: $handle-side-margin - $handle-height / 2 !important;
+    }
+
+    // south east
+    .ReactCrop__drag-handle.ord-se.second-handle {
+        right: $handle-side-margin !important;
+        bottom: $handle-top-margin;
+    }
+    .ReactCrop__drag-handle.ord-se:not(.second-handle) {
+        right: $handle-origin-side-margin;
+        bottom: $handle-origin-top-margin;
+    }
+
+    // south west
+    .ReactCrop__drag-handle.ord-sw.second-handle {
+        left: $handle-side-margin !important;
+        bottom: $handle-top-margin;
+    }
+    .ReactCrop__drag-handle.ord-sw:not(.second-handle) {
+        left: $handle-origin-side-margin;
+        bottom: $handle-origin-top-margin;
+    }
+
+}
