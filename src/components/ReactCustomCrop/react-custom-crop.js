@@ -20,7 +20,7 @@ class ReactCustomCrop extends Component {
       minHeight: PropTypes.number.isRequired,
     }
   
-    createHandle(type) {
+    createHandle (type) {
       const handle = document.createElement('div');
       handle.classList.add('ReactCrop__drag-handle');
       handle.classList.add('second-handle');
@@ -34,7 +34,7 @@ class ReactCustomCrop extends Component {
       this.checkHandles(crop);
     }
   
-    createHandles() {
+    createHandles () {
       const el = this.reactCrop.cropSelectRef.firstChild;
       el.appendChild(this.createHandle('nw'));
       el.appendChild(this.createHandle('ne'));
@@ -42,31 +42,17 @@ class ReactCustomCrop extends Component {
       el.appendChild(this.createHandle('sw'));
     }
   
-    componentDidMount() {
-      this.createHandles();
-    }
-  
-    hasHandles() {
+    hasHandles () {
       return this.reactCrop && this.reactCrop.cropSelectRef && this.reactCrop.cropSelectRef.firstChild;
     }
-  
-    componentDidUpdate() {
-      // re-create the handles, in case they were removed
-      if (this.hasHandles()) {
-        const el = this.reactCrop.cropSelectRef.firstChild;
-        if (!el.querySelector('.second-handle')) {
-          this.createHandles();
-        }
-      }
-    }
 
-    toggleDisplay(handles, hide) {
+    toggleHandlesDisplay (handles, hide) {
       handles.forEach(handle => {
         handle.style.display = hide ? 'none' : 'block';
       });
     }
   
-    checkHandles(crop) {
+    checkHandles (crop) {
       if (this.hasHandles()) {
         const { componentRef, cropSelectRef } = this.reactCrop;
 
@@ -78,23 +64,49 @@ class ReactCustomCrop extends Component {
   
         const hideNorthSouthHandles = widthInPixels < MIN_WIDTH_TO_HIDE_HANDLES;
         const hideWestEastHandles = heightInPixels < MIN_WIDTH_TO_HIDE_HANDLES;
-  
         const hideAllCornerHandles = widthInPixels < MIN_WIDTH_TO_HIDE_CORNER_HANDLES || heightInPixels < MIN_WIDTH_TO_HIDE_CORNER_HANDLES;
   
         const el = cropSelectRef.firstChild;
   
-        const northSouthHandles = el.querySelectorAll('.ReactCrop__drag-handle.ord-n, .ReactCrop__drag-handle.ord-s');
-        this.toggleDisplay(northSouthHandles, hideNorthSouthHandles);
+        // the following if statements are written in order to avoid doing query selector
+        // on the dom when not needed
+
+        if (hideNorthSouthHandles !== this.hideNorthSouthHandles) {
+          this.hideNorthSouthHandles = hideNorthSouthHandles;
+          const northSouthHandles = el.querySelectorAll('.ReactCrop__drag-handle.ord-n, .ReactCrop__drag-handle.ord-s');
+          this.toggleHandlesDisplay(northSouthHandles, this.hideNorthSouthHandles);
+        }
   
-        const westEashHandles = el.querySelectorAll('.ReactCrop__drag-handle.ord-w, .ReactCrop__drag-handle.ord-e');
-        this.toggleDisplay(westEashHandles, hideWestEastHandles);
+        if (hideWestEastHandles !== this.hideWestEastHandles) {
+          this.hideWestEastHandles = hideWestEastHandles;
+          const westEashHandles = el.querySelectorAll('.ReactCrop__drag-handle.ord-w, .ReactCrop__drag-handle.ord-e');
+          this.toggleHandlesDisplay(westEashHandles, this.hideWestEastHandles);
+        }
   
-        const allCornerHandles = el.querySelectorAll('.ReactCrop__drag-handle.ord-nw, .ReactCrop__drag-handle.ord-ne, .ReactCrop__drag-handle.ord-se, .ReactCrop__drag-handle.ord-sw, .ReactCrop__drag-handle.second-handle');
-        this.toggleDisplay(allCornerHandles, hideAllCornerHandles);
+        if (hideAllCornerHandles !== this.hideAllCornerHandles) {
+          this.hideAllCornerHandles = hideAllCornerHandles;
+          const allCornerHandles = el.querySelectorAll('.ReactCrop__drag-handle.ord-nw, .ReactCrop__drag-handle.ord-ne, .ReactCrop__drag-handle.ord-se, .ReactCrop__drag-handle.ord-sw, .ReactCrop__drag-handle.second-handle');
+          this.toggleHandlesDisplay(allCornerHandles, this.hideAllCornerHandles);
+        }
+
       }
     }
   
-    render() {
+    componentDidMount () {
+      this.createHandles();
+    }
+
+    componentDidUpdate () {
+      // re-create the handles, in case they were removed
+      if (this.hasHandles()) {
+        const el = this.reactCrop.cropSelectRef.firstChild;
+        if (!el.querySelector('.second-handle')) {
+          this.createHandles();
+        }
+      }
+    }
+
+    render () {
       return (
         <div className='react-custom-crop'>
           <ReactCrop
